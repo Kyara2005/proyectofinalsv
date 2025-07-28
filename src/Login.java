@@ -6,4 +6,5 @@ public class Login {
     private JButton administradorButton;
     private JButton recepcionistaButton;
     private JPanel principal;
+
 }

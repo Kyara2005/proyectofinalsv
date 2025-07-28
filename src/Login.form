@@ -13,7 +13,7 @@
           <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="3" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Bienvenido al hotel kyara Jaime"/>
+          <text value="Bienvenido al hotel Pajaro azul"/>
         </properties>
       </component>
       <component id="678c3" class="javax.swing.JLabel">
