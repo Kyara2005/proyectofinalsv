@@ -2,12 +2,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 
-public class Huesped {
+public class CheckIn extends JFrame {
     private JButton modificarButton;
     private JButton regresarAlMenuButton;
     private JButton eliminarButton;
@@ -33,7 +32,14 @@ public class Huesped {
     private JTextField id;
     private JLabel IDtxt;
 
-    public Huesped() {
+    public CheckIn() {
+        setTitle("Check-In");
+        setContentPane(principal);
+        setSize(450, 400);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+
         regresarAlMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,11 +79,11 @@ public class Huesped {
                     Connection con = Conexion.getConnection();
 
                     // Verificamos si la habitación ya está ocupada
-                    String sqlVerificar = "SELECT * FROM huesped WHERE habitacion = ? AND (fecha_ingreso <= ? AND fecha_salida >= ?)";
+                    String sqlVerificar = "SELECT * FROM huesped WHERE ingreso = ? AND (salida <= ? AND habitacion >= ?)";
                     PreparedStatement psVerificar = con.prepareStatement(sqlVerificar);
-                    psVerificar.setString(1, habSeleccionada);
+                    psVerificar.setDate(1, java.sql.Date.valueOf(fechaIngreso));
                     psVerificar.setDate(2, java.sql.Date.valueOf(fechaSalida));  // se quiere reservar hasta esta fecha
-                    psVerificar.setDate(3, java.sql.Date.valueOf(fechaIngreso)); // se quiere ingresar en esta fecha
+                    psVerificar.setString(3, habSeleccionada);
 
                     ResultSet rs = psVerificar.executeQuery();
 
@@ -87,7 +93,7 @@ public class Huesped {
                     }
 
                     // Si no está ocupada, insertamos la reserva
-                    String sql = "INSERT INTO huesped (nombre, cedula, telefono, correo, nacimiento, fecha_ingreso, fecha_salida, habitacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO huesped (nombre, cedula, telefono, correo, nacimiento, ingreso, salida, habitacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
                     PreparedStatement ps = con.prepareStatement(sql);
                     ps.setString(1, nom);
@@ -95,9 +101,9 @@ public class Huesped {
                     ps.setString(3, tel);
                     ps.setString(4, corr);
                     ps.setDate(5, java.sql.Date.valueOf(nac));
-                    ps.setString(6, habSeleccionada);
-                    ps.setDate(7, java.sql.Date.valueOf(fechaIngreso));
-                    ps.setDate(8, java.sql.Date.valueOf(fechaSalida));
+                    ps.setString(8, habSeleccionada);
+                    ps.setDate(6, java.sql.Date.valueOf(fechaIngreso));
+                    ps.setDate(7, java.sql.Date.valueOf(fechaSalida));
 
                     int res = ps.executeUpdate();
 
