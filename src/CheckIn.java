@@ -43,6 +43,8 @@ public class CheckIn extends JFrame {
         regresarAlMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                new Recepcionista();
+                dispose();
 
             }
         });
@@ -125,8 +127,17 @@ public class CheckIn extends JFrame {
         limpiarCamposButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                nombre.setText("");
+                cedula.setText("");
+                telefono.setText("");
+                correo.setText("");
+                nacimiento.setText("");
+                ingreso.setText("");
+                salida.setText("");
+                id.setText("");
+                numhabitaciones.setSelectedIndex(0);
             }
         });
+
     }
 }
