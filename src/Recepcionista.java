@@ -12,7 +12,7 @@ public class Recepcionista extends JFrame {
     public Recepcionista() {
         setTitle("Panel de Recepcionista");
         setContentPane(RecepPrincipal);
-        setSize(400, 300);
+        setSize(500, 350);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);

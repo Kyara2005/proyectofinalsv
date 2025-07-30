@@ -12,7 +12,7 @@ public class Login extends JFrame {
     public Login() {
         setTitle("Login de Usuarios");
         setContentPane(principal);
-        setSize(300, 200);
+        setSize(500, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
