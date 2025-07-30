@@ -21,21 +21,13 @@ public class CheckIn extends JFrame {
     private JTextField ingreso;
     private JTextField salida;
     private JPanel principal;
-    private JLabel Nombretxt;
-    private JLabel cedulatxt;
-    private JLabel telefonotxt;
-    private JLabel correotxt;
-    private JLabel fechanacimientotxt;
-    private JLabel ingresotxt;
-    private JLabel salidatxt;
-    private JLabel habitaciones;
     private JTextField id;
-    private JLabel IDtxt;
+    private JButton buscarPorIDButton;
 
     public CheckIn() {
         setTitle("Check-In");
         setContentPane(principal);
-        setSize(450, 400);
+        setSize(650, 550);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -51,13 +43,84 @@ public class CheckIn extends JFrame {
         modificarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String idHuesped = id.getText().trim();
+                String nom = nombre.getText();
+                String ced = cedula.getText();
+                String tel = telefono.getText();
+                String corr = correo.getText();
+                String nac = nacimiento.getText();
+                String habSeleccionada = (String) numhabitaciones.getSelectedItem();
+                String fechaIngreso = ingreso.getText();
+                String fechaSalida = salida.getText();
+
+                if (idHuesped.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Ingrese el ID del huésped que desea modificar.");
+                    return;
+                }
+
+                try {
+                    Connection con = Conexion.getConnection();
+                    String sql = "UPDATE huesped SET nombre=?, cedula=?, telefono=?, correo=?, nacimiento=?, ingreso=?, salida=?, habitacion=? WHERE id=?";
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.setString(1, nom);
+                    ps.setString(2, ced);
+                    ps.setString(3, tel);
+                    ps.setString(4, corr);
+                    ps.setDate(5, java.sql.Date.valueOf(nac));
+                    ps.setDate(6, java.sql.Date.valueOf(fechaIngreso));
+                    ps.setDate(7, java.sql.Date.valueOf(fechaSalida));
+                    ps.setString(8, habSeleccionada);
+                    ps.setInt(9, Integer.parseInt(idHuesped));
+
+                    int res = ps.executeUpdate();
+
+                    if (res > 0) {
+                        JOptionPane.showMessageDialog(null, "Datos actualizados correctamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró un huésped con ese ID.");
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al actualizar: " + ex.getMessage());
+                }
 
             }
         });
         eliminarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                String idHuesped = id.getText().trim();
 
+                if (idHuesped.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Ingrese el ID del huésped que desea eliminar.");
+                    return;
+                }
+
+                int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este huésped?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirm != JOptionPane.YES_OPTION) {
+                    return;
+                }
+
+                try {
+                    Connection con = Conexion.getConnection();
+                    String sql = "DELETE FROM huesped WHERE id = ?";
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.setInt(1, Integer.parseInt(idHuesped));
+
+                    int res = ps.executeUpdate();
+
+                    if (res > 0) {
+                        JOptionPane.showMessageDialog(null, "Huésped eliminado correctamente.");
+                        limpiarCamposButton1.doClick(); // Limpia los campos después de eliminar
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró un huésped con ese ID.");
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al eliminar: " + ex.getMessage());
+                }
             }
         });
         reservarButton.addActionListener(new ActionListener() {
@@ -80,38 +143,36 @@ public class CheckIn extends JFrame {
                 try {
                     Connection con = Conexion.getConnection();
 
-                    // Verificamos si la habitación ya está ocupada
-                    String sqlVerificar = "SELECT * FROM huesped WHERE ingreso = ? AND (salida <= ? AND habitacion >= ?)";
+                    // Verificar si la habitación está ocupada
+                    String sqlVerificar = "SELECT * FROM huesped WHERE habitacion = ? AND ingreso <= ? AND salida >= ?";
                     PreparedStatement psVerificar = con.prepareStatement(sqlVerificar);
-                    psVerificar.setDate(1, java.sql.Date.valueOf(fechaIngreso));
-                    psVerificar.setDate(2, java.sql.Date.valueOf(fechaSalida));  // se quiere reservar hasta esta fecha
-                    psVerificar.setString(3, habSeleccionada);
+                    psVerificar.setString(1, habSeleccionada);
+                    psVerificar.setDate(2, java.sql.Date.valueOf(fechaSalida));
+                    psVerificar.setDate(3, java.sql.Date.valueOf(fechaIngreso));
 
                     ResultSet rs = psVerificar.executeQuery();
 
                     if (rs.next()) {
-                        JOptionPane.showMessageDialog(null, "Esa habitación ya está ocupada para las fechas seleccionadas. Elija otra.");
+                        JOptionPane.showMessageDialog(null, "Habitación ocupada. Elija otra o cambie las fechas.");
                         return;
                     }
 
-                    // Si no está ocupada, insertamos la reserva
+                    // Insertar la nueva reserva
                     String sql = "INSERT INTO huesped (nombre, cedula, telefono, correo, nacimiento, ingreso, salida, habitacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-
                     PreparedStatement ps = con.prepareStatement(sql);
                     ps.setString(1, nom);
                     ps.setString(2, ced);
                     ps.setString(3, tel);
                     ps.setString(4, corr);
                     ps.setDate(5, java.sql.Date.valueOf(nac));
-                    ps.setString(8, habSeleccionada);
                     ps.setDate(6, java.sql.Date.valueOf(fechaIngreso));
                     ps.setDate(7, java.sql.Date.valueOf(fechaSalida));
+                    ps.setString(8, habSeleccionada);
 
                     int res = ps.executeUpdate();
 
                     if (res > 0) {
                         JOptionPane.showMessageDialog(null, "Reserva registrada con éxito.");
-                        // limpiar campos si deseas
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al registrar la reserva.");
                     }
@@ -122,8 +183,6 @@ public class CheckIn extends JFrame {
                 }
             }
         });
-
-
         limpiarCamposButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,5 +198,42 @@ public class CheckIn extends JFrame {
             }
         });
 
+        buscarPorIDButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String idHuesped = id.getText().trim();
+
+                if (idHuesped.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Ingrese el ID del huésped que desea buscar.");
+                    return;
+                }
+
+                try {
+                    Connection con = Conexion.getConnection();
+                    String sql = "SELECT * FROM huesped WHERE id = ?";
+                    PreparedStatement ps = con.prepareStatement(sql);
+                    ps.setInt(1, Integer.parseInt(idHuesped));
+
+                    ResultSet rs = ps.executeQuery();
+
+                    if (rs.next()) {
+                        nombre.setText(rs.getString("nombre"));
+                        cedula.setText(rs.getString("cedula"));
+                        telefono.setText(rs.getString("telefono"));
+                        correo.setText(rs.getString("correo"));
+                        nacimiento.setText(rs.getString("nacimiento"));
+                        ingreso.setText(rs.getString("ingreso"));
+                        salida.setText(rs.getString("salida"));
+                        numhabitaciones.setSelectedItem(rs.getString("habitacion"));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró un huésped con ese ID.");
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error al buscar: " + ex.getMessage());
+                }
+            }
+        });
     }
 }
