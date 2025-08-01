@@ -10,6 +10,7 @@ public class Comentarios extends JFrame{
     private JButton guardarComentarioButton;
     private JButton regresarButton;
 
+
     public Comentarios(){
         setTitle("Check-In");
         setContentPane(principal);
@@ -17,6 +18,8 @@ public class Comentarios extends JFrame{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        ThemeManager.aplicarTema(this);
+
         guardarComentarioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

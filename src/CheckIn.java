@@ -31,6 +31,8 @@ public class CheckIn extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        ThemeManager.aplicarTema(this);
+
 
         regresarAlMenuButton.addActionListener(new ActionListener() {
             @Override
@@ -157,9 +159,9 @@ public class CheckIn extends JFrame {
                         return;
                     }
 
-                    // Insertar la nueva reserva
+                    // ✅ Insertar la nueva reserva y obtener el ID generado
                     String sql = "INSERT INTO huesped (nombre, cedula, telefono, correo, nacimiento, ingreso, salida, habitacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                    PreparedStatement ps = con.prepareStatement(sql);
+                    PreparedStatement ps = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
                     ps.setString(1, nom);
                     ps.setString(2, ced);
                     ps.setString(3, tel);
@@ -172,7 +174,13 @@ public class CheckIn extends JFrame {
                     int res = ps.executeUpdate();
 
                     if (res > 0) {
-                        JOptionPane.showMessageDialog(null, "Reserva registrada con éxito.");
+                        ResultSet generatedKeys = ps.getGeneratedKeys();
+                        if (generatedKeys.next()) {
+                            int idGenerado = generatedKeys.getInt(1);
+                            JOptionPane.showMessageDialog(null, "✅ Reserva registrada con éxito.\nSu ID de reserva es: " + idGenerado);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Reserva registrada, pero no se pudo obtener el ID.");
+                        }
                     } else {
                         JOptionPane.showMessageDialog(null, "Error al registrar la reserva.");
                     }
@@ -183,6 +191,7 @@ public class CheckIn extends JFrame {
                 }
             }
         });
+
         limpiarCamposButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -13,17 +13,14 @@ public class Login extends JFrame {
     private JLabel contraseñaa;
 
     public Login() {
-        PanelConFondoGIF fondoPanel = new PanelConFondoGIF("/recursos/pajaro2.gif");
 
-        // 🔁 Añade tu panel "principal" encima (creado por IntelliJ .form)
-        fondoPanel.add(principal, BorderLayout.CENTER);
-        principal.setOpaque(false); //esto lo hace transparente
-
-        setContentPane(fondoPanel);
+        setContentPane(principal);
         setSize(500, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        ThemeManager.aplicarTema(this);
+
 
         ImageIcon icono = new ImageIcon("src/recursos/agregar-usuario.png");
         ImageIcon icono2 = new ImageIcon("src/recursos/seguro.png");

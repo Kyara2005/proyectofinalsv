@@ -13,6 +13,7 @@ public class Admin extends JFrame {
     public Admin() {
         setTitle("Panel de Administrador");
         setContentPane(AdminPanel);
+        ThemeManager.aplicarTema(this);
         setSize(550, 350);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

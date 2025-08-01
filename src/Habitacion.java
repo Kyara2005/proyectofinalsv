@@ -20,6 +20,8 @@ public class Habitacion extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(principal);
         setVisible(true);
+        ThemeManager.aplicarTema(this);
+
 
         buscarButton.addActionListener(new ActionListener() {
             @Override
@@ -27,7 +29,6 @@ public class Habitacion extends JFrame {
                 String habitacionIngresada = textField1.getText().trim();
                 LocalDate hoy = LocalDate.now();
 
-                // Validar que no esté vacío y que sea un número válido
                 if (habitacionIngresada.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese un número de habitación.");
                     return;
@@ -45,9 +46,8 @@ public class Habitacion extends JFrame {
                 }
 
                 // Consulta en la base de datos
-                try {
-                    Connection con = Conexion.getConnection();
-                    String sql = "SELECT * FROM huesped WHERE habitacion = ? AND ? BETWEEN ingreso AND salida";
+                try (Connection con = Conexion.getConnection()) {
+                    String sql = "SELECT nombre, ingreso, salida FROM huesped WHERE habitacion = ? AND ? BETWEEN ingreso AND salida";
                     PreparedStatement ps = con.prepareStatement(sql);
                     ps.setString(1, habitacionIngresada);
                     ps.setDate(2, java.sql.Date.valueOf(hoy));
@@ -55,7 +55,13 @@ public class Habitacion extends JFrame {
                     ResultSet rs = ps.executeQuery();
 
                     if (rs.next()) {
-                        estadoHabitacion.setText("OCUPADA");
+                        String nombre = rs.getString("nombre");
+                        LocalDate ingreso = rs.getDate("ingreso").toLocalDate();
+                        LocalDate salida = rs.getDate("salida").toLocalDate();
+                        long diasEstadia = java.time.temporal.ChronoUnit.DAYS.between(ingreso, salida);
+
+                        estadoHabitacion.setText("<html><b>OCUPADA</b><br>Huésped: " + nombre +
+                                "<br>Días: " + diasEstadia + "</html>");
                     } else {
                         estadoHabitacion.setText("DISPONIBLE");
                     }
@@ -66,6 +72,7 @@ public class Habitacion extends JFrame {
                 }
             }
         });
+
         regresarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

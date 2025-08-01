@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,6 +7,7 @@ public class Recepcionista extends JFrame {
     private JButton checkOutButton;
     private JButton cerrarSesionButton;
     private JPanel RecepPrincipal;
+    private JButton inrformacionDeHuespedesAlojadosButton;
 
     public Recepcionista() {
         setTitle("Panel de Recepcionista");
@@ -16,6 +16,8 @@ public class Recepcionista extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        ThemeManager.aplicarTema(this);
+
 
         checkInButton.addActionListener(new ActionListener() {
             @Override
@@ -37,6 +39,13 @@ public class Recepcionista extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login();
+                dispose();
+            }
+        });
+        inrformacionDeHuespedesAlojadosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new alojados();
                 dispose();
             }
         });

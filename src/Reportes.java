@@ -15,6 +15,8 @@ public class Reportes extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(principal);
         setVisible(true);
+        ThemeManager.aplicarTema(this);
+
 
         cargarComentario();
 
