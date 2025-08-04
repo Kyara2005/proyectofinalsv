@@ -28,7 +28,7 @@
           <background color="-11045502"/>
           <font name="Segoe UI" size="14" style="2"/>
           <foreground color="-460294"/>
-          <text value="Gestionar habitaciones"/>
+          <text value="Habitaciones"/>
         </properties>
       </component>
       <component id="31c63" class="javax.swing.JButton" binding="gestionarUsuariosButton" default-binding="true">
@@ -39,7 +39,7 @@
           <background color="-11045502"/>
           <font name="Segoe UI" size="14" style="2"/>
           <foreground color="-460294"/>
-          <text value="Gestionar usuarios"/>
+          <text value="Usuarios"/>
         </properties>
       </component>
       <component id="6f2c9" class="javax.swing.JButton" binding="verReportesButton" default-binding="true">
@@ -60,7 +60,7 @@
         <properties>
           <background color="-18272"/>
           <font name="Segoe UI" size="14" style="2"/>
-          <foreground color="-16711423"/>
+          <foreground color="-526599"/>
           <text value="Cerrar sesion"/>
         </properties>
       </component>
