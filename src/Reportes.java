@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +23,13 @@ public class Reportes extends JFrame {
         cargarComentario();
 
         regresarButton.addActionListener(e -> dispose());
+        regresarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Admin();
+                dispose();
+            }
+        });
     }
 
     private void cargarComentario() {
