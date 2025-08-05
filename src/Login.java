@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Ventana encargada de la entrada identificando el que quiera entrar como administrador o recepcionista
+ */
 public class Login extends JFrame {
     private JTextField textField1;
     private JButton recepcionistaButton;

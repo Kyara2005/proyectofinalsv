@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Ventana encargada de mostrar el menu de acciones accesible para el administrador
+ */
 public class Admin extends JFrame {
     private JButton gestionarHabitacionesButton;
     private JButton gestionarUsuariosButton;

@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
-
+/**
+ * Ventana encargada de la visualizacion de los huespedes alojados
+ */
 public class alojados extends JFrame {
     private JButton regresarButton;
     private JButton checkInButton;

@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-
+/**
+ * Ventana encargada de los estilos de toda la pagina
+ */
 public class ThemeManager {
 
     public static void aplicarTema(JFrame frame) {

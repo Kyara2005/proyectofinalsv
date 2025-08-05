@@ -1,7 +1,9 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+/**
+ * Ventana encargada del menu de acciones permitidas para el recepcionista
+ */
 public class Recepcionista extends JFrame {
     private JButton checkInButton;
     private JButton checkOutButton;

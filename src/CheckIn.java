@@ -4,7 +4,10 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+/**
+ * Ventana encargada de realizar el Check-In de los huéspedes.
+ * Permite registrar, modificar, buscar y eliminar reservas.
+ */
 
 public class CheckIn extends JFrame {
     private JButton modificarButton;

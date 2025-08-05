@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.sql.Connection;
 import java.sql.ResultSet;
-
+/**
+ * Ventana encargada de la visualizacion del estado de cada habitacion
+ */
 public class Habitacion extends JFrame {
     private JTextField textField1;
     private JButton buscarButton;

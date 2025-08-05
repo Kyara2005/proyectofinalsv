@@ -1,0 +1,106 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FDF6E3
+skinparam classFontColor #4E342E
+skinparam classBackgroundColor #F5F5DC
+skinparam classBorderColor #A1887F
+skinparam ArrowColor #6D4C41
+skinparam defaultTextAlignment left
+
+'================== CLASES ===================
+
+class Conexion {
+    - URL: String
+    - USUARIO: String
+    - CLAVE: String
+    + getConnection(): Connection
+}
+
+class Login {
+    - textField1: JTextField
+    - passwordField1: JPasswordField
+    + Login()
+}
+
+class Admin {
+    - gestionarHabitacionesButton: JButton
+    - gestionarUsuariosButton: JButton
+    - verReportesButton: JButton
+    + Admin()
+}
+
+class Recepcionista {
+    - checkInButton: JButton
+    - checkOutButton: JButton
+    + Recepcionista()
+}
+
+class CheckIn {
+    - nombre: JTextField
+    - cedula: JTextField
+    - telefono: JTextField
+    - correo: JTextField
+    - nacimiento: JTextField
+    - ingreso: JTextField
+    - salida: JTextField
+    - id: JTextField
+    + reservar()
+    + modificar()
+    + eliminar()
+    + buscarPorID()
+}
+
+class Reserva {
+    - textField1: JTextField
+    - resumenLabel: JLabel
+    + buscar()
+    + checkOut()
+}
+
+class Comentarios {
+    - comentarioField: JTextField
+    + guardarComentario()
+}
+
+class Habitacion {
+    - textField1: JTextField
+    - estadoHabitacion: JLabel
+    + buscarEstado()
+}
+
+class Usuarios {
+    - textField1: JTextField
+    - textField2: JLabel
+    + buscarPorID()
+}
+
+class Reportes {
+    - comentariotxt: JLabel
+    + cargarComentario()
+}
+
+class alojados {
+    - informaciontxt: JLabel
+    + cargarHuespedesActuales()
+}
+
+'================== RELACIONES ===================
+
+Login --> Admin : abre
+Login --> Recepcionista : abre
+Recepcionista --> CheckIn : abre
+Recepcionista --> Reserva : abre
+Reserva --> Comentarios : opcional
+Reserva --> alojados
+Admin --> Habitacion
+Admin --> Reportes
+Admin --> Usuarios
+CheckIn --> Conexion
+Reserva --> Conexion
+Habitacion --> Conexion
+Usuarios --> Conexion
+Comentarios --> Conexion
+Reportes --> Conexion
+alojados --> Conexion
+
+@enduml

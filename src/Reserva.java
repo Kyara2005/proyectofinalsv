@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-
+/**
+ * Ventana encargada del proceso de Check-Out.
+ * Muestra resumen de estadía y elimina al huésped de la base.
+ */
 public class Reserva extends JFrame {
     private JButton buscarButton;
     private JButton checkOutButton;

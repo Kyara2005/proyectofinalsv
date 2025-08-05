@@ -4,7 +4,9 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+/**
+ * Ventana encargada de la visualizacion de los comentarios hechos en el hotel
+ */
 public class Reportes extends JFrame {
     private JPanel principal;
     private JButton regresarButton;

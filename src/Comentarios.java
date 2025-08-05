@@ -3,7 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-
+/**
+ * Ventana para que los usuarios puedan dar sus recomendaciones o comentarios
+ */
 public class Comentarios extends JFrame{
     private JTextField textField1;
     private JPanel principal;
